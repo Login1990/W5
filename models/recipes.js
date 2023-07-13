@@ -12,4 +12,4 @@ let recipeSchema = new Schema({
     name: String,
 })
 
-module.exports = mongoose.model("recipes", recipeSchema)
+module.exports = mongoose.model("Recipes", recipeSchema)
