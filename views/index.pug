@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  div 
+  div(id="recipe")
+    p(id="recipe-name")
+    ul(id="instructions") Instructions:
+    ul(id="ingredients") Ingridients:
+  h4 Name
+  input(type="text" id="name-text")
+  h4 Ingredients
+  textarea(id="ingredients-text")
+  button(type="button" id="add-ingredient") Add ingredient
+  h4 instructions
+  textarea(id="instructions-text")
+  button(id="add-instruction" type="button") Add instruction
+  br
+  input(id="image-input" type="file" accept="image/*" multiple) 
+  br
+  button(id="submit" type="submit") Submit
+  div(id="waiting-container")
+    ul(id="waiting-ingredients")
+    ul(id="waiting-instructions")
