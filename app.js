@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+var mongoose = require("mongoose")
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -8,6 +9,13 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+const mongoDB = "mongodb://127.0.0.1:27017/testdb"
+mongoose.connect(mongoDB)
+mongoose.Promise = Promise
+const db = mongoose.connection
+
+db.on("error", console.error.bind(console,"MongoDB connection error"))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,5 +45,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
