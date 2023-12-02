@@ -1,4 +1,6 @@
 var express = require('express');
+const mongoose = require("mongoose");
+const Recipes = require("../models/recipes.js")
 var router = express.Router();
 
 let recipes = {}
@@ -8,18 +10,34 @@ router.get('/', function(req, res, next) {
 });
 
 router.get("/recipe/:food", (req,res,next) => {
-  let feedback = {
-    name: req.params.food,
-    instructions: ["boil water","beans","graveyard"],
-    ingredients: ["beans","marmite","blakc troufel oil"]
-  }
-  return res.json(feedback)
+  Recipes.find({name: req.params.food}, (err, recipe) => {
+    if(err) return next(err);
+    if(recipe) {
+      return res.send(recipe)
+    } else {
+      return res.status(404).send("Recipe not found")
+    }
+  })
 })
 
 router.post("/recipe/", (req,res,next) => {
-  recipes[req.body.name] = req.body
-  return res.json(req.body)
-})
+  Recipes.findOne({name: req.body.name}, (err, name) => {
+    if(err) return next(err);
+    try{
+      if(!name){
+        new Recipes({
+          name: req.body.name,
+          ingredients: req.body.ingredients,
+          instructions: req.body.instructions
+        }).save()
+      }
+    } catch(err){
+      console.log(err)
+      //next(err);
+    }
+  })
+  res.send(req.body)
+});
 
 router.post("/images", (req,res,next) =>{
   res.send("Hi")
