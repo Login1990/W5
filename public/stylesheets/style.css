@@ -6,3 +6,9 @@ body {
 a {
   color: #00B7FF;
 }
+
+.container {
+  background-color: rgba(255, 0, 0, 0.5);
+  display: flex;
+  justify-content: space-between;
+}

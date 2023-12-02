@@ -12,10 +12,10 @@ router.get('/', function(req, res, next) {
 router.get("/recipe/:food", (req,res,next) => {
   Recipes.find({name: req.params.food}, (err, recipe) => {
     if(err) return next(err);
-    if(recipe) {
-      return res.send(recipe)
+    if(recipe[0]) {
+      return res.send(recipe[0])
     } else {
-      return res.status(404).send("Recipe not found")
+      return res.status(404).send({})
     }
   })
 })

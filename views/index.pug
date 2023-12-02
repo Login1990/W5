@@ -2,7 +2,9 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  div(class="container")
+    p Welcome to #{title}
+    input(type="search" class="searchBar" placeholder="Search")
   div 
   div(id="recipe")
     p(id="recipe-name")

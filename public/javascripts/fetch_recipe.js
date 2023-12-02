@@ -1,8 +1,6 @@
-
-
-async function fetchRecipe(){
+async function fetchRecipe(food = "pizza"){
     try{
-        const response = await fetch('/recipe/pizza', {
+        const response = await fetch('/recipe/'+food, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -12,7 +10,14 @@ async function fetchRecipe(){
         const name = document.getElementById("recipe-name")
         const instructions = document.getElementById("instructions")
         const ingredients = document.getElementById("ingredients")
-        name.innerText = data["name"]
+        name.innerText = (data["name"] === undefined) ? "Recipe" : data["name"];
+        while (instructions.lastElementChild) {
+            instructions.removeChild(instructions.lastElementChild);
+        }
+        while (ingredients.lastElementChild) {
+            ingredients.removeChild(ingredients.lastElementChild);
+        }
+        //ingredients.innerHTML = ""
         data["instructions"].forEach(element => {
             let li = document.createElement("li")
             li.innerText = element
@@ -64,6 +69,7 @@ window.onload = function(){
     const confirm_button = document.getElementById("submit")
     const add_ingredient_button = document.getElementById("add-ingredient")
     const add_instruction_button = document.getElementById("add-instruction")
+    const searchBar = document.getElementsByClassName("searchBar")[0]
     add_ingredient_button.addEventListener("click", function(){
         /*const name = document.getElementById("name-text")
         const ingredients = document.getElementById("ingredients-text")*/
@@ -91,6 +97,12 @@ window.onload = function(){
         }
         postImage(images)
         postRecipe(JSON_to_send)
+    })
+    searchBar.addEventListener('keydown', async function(event){
+        if (event.key === "Enter"){
+            const searchTerm = searchBar.value;
+            fetchRecipe(searchTerm)
+        }
     })
 
 }
