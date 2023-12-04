@@ -10,6 +10,9 @@ let recipeSchema = new Schema({
         type: String
     }],
     name: String,
+    categories: [{
+        type: String
+    }]
 })
 
 module.exports = mongoose.model("Recipes", recipeSchema)

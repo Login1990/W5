@@ -1,4 +1,4 @@
-async function fetchRecipe(food = "pizza"){
+async function fetchRecipe(food = "d"){
     try{
         const response = await fetch('/recipe/'+food, {
             method: 'GET',
@@ -66,6 +66,7 @@ let instruction_list_for_post = []
 
 window.onload = function(){
     fetchRecipe()
+    load_categories()
     const confirm_button = document.getElementById("submit")
     const add_ingredient_button = document.getElementById("add-ingredient")
     const add_instruction_button = document.getElementById("add-instruction")
@@ -100,9 +101,10 @@ window.onload = function(){
     })
     searchBar.addEventListener('keydown', async function(event){
         if (event.key === "Enter"){
+            console.log("Hello")
             const searchTerm = searchBar.value;
             fetchRecipe(searchTerm)
         }
     })
-
+    console.log(document.querySelectorAll(".checktext"))
 }

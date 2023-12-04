@@ -1,6 +1,7 @@
 var express = require('express');
 const mongoose = require("mongoose");
-const Recipes = require("../models/recipes.js")
+const Recipes = require("../models/recipes.js");
+const Categories = require("../models/categories.js");
 var router = express.Router();
 
 let recipes = {}
@@ -42,5 +43,35 @@ router.post("/recipe/", (req,res,next) => {
 router.post("/images", (req,res,next) =>{
   res.send("Hi")
 })
+
+router.get("/categories", (req, res, next) => {
+  Categories.find({}, (err, categories) => {
+    if(err) return next(err);
+    if(Object.keys(categories).length > 0){
+      res.send(categories)
+    } else {
+      res.status(404).send({})
+    }
+  })
+})
+
+router.post("/categories", (req,res,next) => {
+  Categories.findOne({name: req.body.name}, (err, name) => {
+    if(err) return next(err);
+    console.log(req.body.name)
+    console.log(name)
+    try{
+      if(!name){
+        new Categories({
+          name: req.body.name
+        }).save()
+      }
+    } catch(err){
+      console.log(err)
+      //next(err);
+    }
+  })
+  res.send(req.body)
+});
 
 module.exports = router;
